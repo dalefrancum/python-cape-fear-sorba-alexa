@@ -3,6 +3,8 @@ import os
 from cfsorba import CapeFearSorba
 
 
+logging.basicConfig(level=os.environ.get("LOGLEVEL", logging.WARN))
+
 class CapeFearSorbaAlexa(object):
 
     document_url = os.environ.get("CFSORBA_DOCUMENT_URL", "http://capefearsorba.org")
