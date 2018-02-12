@@ -14,7 +14,7 @@ class TestCapeFearSorbaAlexa(unittest.TestCase):
                 "Blue Clay Bike Park",
                 "Browns Creek",
                 "Brunswick Nature Park",
-                "Horry Co. Bike Park"
+                "Horry County Bike Park"
             ],
             "closed": []
         }
@@ -33,7 +33,7 @@ class TestCapeFearSorbaAlexa(unittest.TestCase):
                 "Blue Clay Bike Park",
                 "Browns Creek",
                 "Brunswick Nature Park",
-                "Horry Co. Bike Park"
+                "Horry County Bike Park"
             ]
         }
 
@@ -49,7 +49,7 @@ class TestCapeFearSorbaAlexa(unittest.TestCase):
             "open": [
                 "Brunswick Nature Park",
                 "Browns Creek",
-                "Horry Co. Bike Park"
+                "Horry County Bike Park"
             ],
             "closed": [
                 "Blue Clay Bike Park"
@@ -85,7 +85,6 @@ class TestCapeFearSorbaAlexa(unittest.TestCase):
 
         expected_response = {
             "version": "1.0",
-            "sessionAttributes": {},
             "response": {
                 "outputSpeech": {
                     "type": "PlainText",
@@ -111,7 +110,7 @@ class TestCapeFearSorbaAlexa(unittest.TestCase):
                 "Blue Clay Bike Park",
                 "Browns Creek",
                 "Brunswick Nature Park",
-                "Horry Co. Bike Park"
+                "Horry County Bike Park"
             ],
             "closed": []
         }
@@ -119,6 +118,7 @@ class TestCapeFearSorbaAlexa(unittest.TestCase):
         mock_cfsorba.get_document_html.return_value = "<html></html>"
         mock_cfsorba.parse_html.return_value = mock_status_data
         mock_build_output_text.return_value = "Good news! All trails are open."
+        mock_build_response.return_value = {}
 
         alexa = cape_fear_sorba_alexa.CapeFearSorbaAlexa(self.lambda_event)
         alexa.execute()
