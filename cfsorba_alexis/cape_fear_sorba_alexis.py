@@ -66,6 +66,7 @@ class CapeFearSorbaAlexis(object):
         # Build the response and return that
         output_text = self._build_output_text(status_data=cf_sorba_statuses)
         response = self._build_response(output=output_text)
+        logging.debug(response)
         return response
 
 
