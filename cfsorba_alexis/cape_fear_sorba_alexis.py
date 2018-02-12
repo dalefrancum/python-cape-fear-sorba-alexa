@@ -5,31 +5,13 @@ from cfsorba import CapeFearSorba
 
 class CapeFearSorbaAlexis(object):
 
+    document_url = os.environ.get("CFSORBA_DOCUMENT_URL", "http://capefearsorba.org")
+    speech_response_version = "1.0"
     card_title = "Cape Fear Sorba Trails"
+    session_attributes = {}
 
     def __init__(self, lambda_event):
         pass
-
-    def build_speechlet_response(self, output):
-        return {
-            "outputSpeech": {
-                "type": "PlainText",
-                "text": output
-            },
-            "card": {
-                "type": "Simple",
-                "title": self.card_title,
-                "content": output
-            },
-            "shouldEndSession": True
-        }
-
-    def _build_response(session_attributes, speechlet_response):
-        return {
-            "version": "1.0",
-            "sessionAttributes": session_attributes,
-            "response": speechlet_response
-        }
 
     def _build_output_text(self, status_data):
 
@@ -55,12 +37,36 @@ class CapeFearSorbaAlexis(object):
 
         return output_text
 
+    def _build_response(self, output):
+
+        response = {
+            "version": self.speech_response_version,
+            "sessionAttributes": self.session_attributes,
+            "response": {
+                "outputSpeech": {
+                    "type": "PlainText",
+                    "text": output
+                },
+                "card": {
+                    "type": "Simple",
+                    "title": self.card_title,
+                    "content": output
+                },
+                "shouldEndSession": True
+            }
+        }
+        return response
+
     def execute(self):
 
-        cf_sorba_document_html = CapeFearSorba.get_document_html()
-        cf_sorba_statuses = CapeFearSorba.parse_html(cf_sorba_document_html)
+        # Get the statuses from the Cape Fear SORBA site
+        cf_sorba_document_html = CapeFearSorba.get_document_html(document_url=self.document_url)
+        cf_sorba_statuses = CapeFearSorba.parse_html(html_doc=cf_sorba_document_html)
 
-        self._build_response(status_data=cf_sorba_statuses)
+        # Build the response and return that
+        output_text = self._build_output_text(status_data=cf_sorba_statuses)
+        response = self._build_response(output=output_text)
+        return response
 
 
 def lambda_handler(lambda_event, context):
