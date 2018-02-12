@@ -36,8 +36,6 @@ class CapeFearSorbaAlexis(object):
         open_trails = status_data["open"]
         closed_trails = status_data["closed"]
 
-        output_text = ""
-
         # All trails open
         if len(open_trails) > 0 and len(closed_trails) == 0:
             output_text = "Good news! All trails are open."
