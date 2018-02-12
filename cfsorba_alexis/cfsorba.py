@@ -9,7 +9,6 @@ logging.basicConfig(level=os.environ.get("LOGLEVEL", logging.WARN))
 
 class CapeFearSorba(object):
 
-    document_url = os.environ.get("CFSORBA_DOCUMENT_URL", "http://capefearsorba.org")
     list_item_regex = "<li class=\"clearfix\">.*<p>([A-z .]+) .*(OPEN|CLOSED).*</li>"
 
     @staticmethod
