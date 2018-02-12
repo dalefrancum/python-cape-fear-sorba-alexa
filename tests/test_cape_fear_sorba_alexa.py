@@ -128,5 +128,13 @@ class TestCapeFearSorbaAlexa(unittest.TestCase):
         mock_build_output_text.assert_called_with(status_data=mock_status_data)
         mock_build_response.assert_called_with(output="Good news! All trails are open.")
 
-    def test_lambda_handler(self):
-        pass
+    @patch('cfsorba_alexa.cape_fear_sorba_alexa.CapeFearSorbaAlexa')
+    def test_lambda_handler(self, mock_cape_fear_sorba_alexa):
+
+        test_event = {"test": "event"}
+        mock_cape_fear_sorba_alexa.return_value.execute.return_value = {"response": "pretend"}
+
+        lambda_return = cape_fear_sorba_alexa.lambda_handler(test_event, {})
+
+        mock_cape_fear_sorba_alexa.assert_called_with(lambda_event=test_event)
+        self.assertDictEqual({"response": "pretend"}, lambda_return)
