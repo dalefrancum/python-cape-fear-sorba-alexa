@@ -7,7 +7,7 @@ class TestCapeFearSorbaAlexis(unittest.TestCase):
 
     lambda_event = {}
 
-    def test__build_output_text_all_trails_open(self):
+    def test_build_output_text_all_trails_open(self):
 
         status_data = {
             "open": [
@@ -25,7 +25,7 @@ class TestCapeFearSorbaAlexis(unittest.TestCase):
         expected_output_text = "Good news! All trails are open."
         self.assertEqual(expected_output_text, output_text)
 
-    def test__build_output_text_all_trails_closed(self):
+    def test_build_output_text_all_trails_closed(self):
 
         status_data = {
             "open": [],
@@ -43,7 +43,7 @@ class TestCapeFearSorbaAlexis(unittest.TestCase):
         output_text = alexis._build_output_text(status_data)
         self.assertEqual(expected_output_text, output_text)
 
-    def test__build_output_text_some_open_some_close(self):
+    def test_build_output_text_some_open_some_close(self):
 
         status_data = {
             "open": [
@@ -59,6 +59,19 @@ class TestCapeFearSorbaAlexis(unittest.TestCase):
         alexis = cape_fear_sorba_alexis.CapeFearSorbaAlexis(self.lambda_event)
         expected_output_text = "The following trails are open: %s." % ", ".join(status_data["open"])
         expected_output_text += " The following trails are closed: %s." % ", ".join(status_data["closed"])
+
+        output_text = alexis._build_output_text(status_data)
+        self.assertEqual(expected_output_text, output_text)
+
+    def test_build_output_text_could_not_be_determined(self):
+
+        status_data = {
+            "open": [],
+            "closed": []
+        }
+
+        alexis = cape_fear_sorba_alexis.CapeFearSorbaAlexis(self.lambda_event)
+        expected_output_text = "I'm sorry, trail statuses could not be determined."
 
         output_text = alexis._build_output_text(status_data)
         self.assertEqual(expected_output_text, output_text)
