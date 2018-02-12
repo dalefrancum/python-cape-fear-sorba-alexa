@@ -76,6 +76,31 @@ class TestCapeFearSorbaAlexis(unittest.TestCase):
         output_text = alexis._build_output_text(status_data)
         self.assertEqual(expected_output_text, output_text)
 
+    def test_build_response(self):
+
+        test_output = "Good news! All trails are open."
+
+        alexis = cape_fear_sorba_alexis.CapeFearSorbaAlexis(self.lambda_event)
+        response = alexis._build_response(output=test_output)
+
+        expected_response = {
+            "version": "1.0",
+            "sessionAttributes": {},
+            "response": {
+                "outputSpeech": {
+                    "type": "PlainText",
+                    "text": test_output
+                },
+                "card": {
+                    "type": "Simple",
+                    "title": "Cape Fear Sorba Trails",
+                    "content": test_output
+                },
+                "shouldEndSession": True
+            }
+        }
+        self.assertDictEqual(expected_response, response)
+
     @patch('cfsorba_alexis.cape_fear_sorba_alexis.CapeFearSorba')
     @patch('cfsorba_alexis.cape_fear_sorba_alexis.CapeFearSorbaAlexis._build_output_text')
     @patch('cfsorba_alexis.cape_fear_sorba_alexis.CapeFearSorbaAlexis._build_response')
