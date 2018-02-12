@@ -9,7 +9,7 @@ class TestCapeFearSorba(unittest.TestCase):
     def test_get_document_html(self, mock_requests):
         test_html = "<html></html>"
         mock_requests.get.return_value = test_html
-        document_html = cfsorba.CapeFearSorba.get_document_html(cfsorba.CapeFearSorba.document_url)
+        document_html = cfsorba.CapeFearSorba.get_document_html(document_url="http://capefearsorba.org/")
         self.assertEqual(test_html, document_html)
 
     def test_parse_html(self):
