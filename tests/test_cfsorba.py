@@ -1,11 +1,11 @@
 import unittest
 from mock import Mock, patch
-import cfsorba_alexis.cfsorba as cfsorba
+import cfsorba_alexa.cfsorba as cfsorba
 
 
 class TestCapeFearSorba(unittest.TestCase):
 
-    @patch('cfsorba_alexis.cfsorba.requests')
+    @patch('cfsorba_alexa.cfsorba.requests')
     def test_get_document_html(self, mock_requests):
         test_html = "<html></html>"
         mock_requests.get.return_value = Mock(status_code=200, text=test_html)

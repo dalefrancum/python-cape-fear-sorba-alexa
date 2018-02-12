@@ -1,9 +1,9 @@
 import unittest
 from mock import patch
-import cfsorba_alexis.cape_fear_sorba_alexis as cape_fear_sorba_alexis
+import cfsorba_alexa.cape_fear_sorba_alexa as cape_fear_sorba_alexa
 
 
-class TestCapeFearSorbaAlexis(unittest.TestCase):
+class TestCapeFearSorbaAlexa(unittest.TestCase):
 
     lambda_event = {}
 
@@ -19,8 +19,8 @@ class TestCapeFearSorbaAlexis(unittest.TestCase):
             "closed": []
         }
 
-        alexis = cape_fear_sorba_alexis.CapeFearSorbaAlexis(self.lambda_event)
-        output_text = alexis._build_output_text(status_data)
+        alexa = cape_fear_sorba_alexa.CapeFearSorbaAlexa(self.lambda_event)
+        output_text = alexa._build_output_text(status_data)
 
         expected_output_text = "Good news! All trails are open."
         self.assertEqual(expected_output_text, output_text)
@@ -37,10 +37,10 @@ class TestCapeFearSorbaAlexis(unittest.TestCase):
             ]
         }
 
-        alexis = cape_fear_sorba_alexis.CapeFearSorbaAlexis(self.lambda_event)
+        alexa = cape_fear_sorba_alexa.CapeFearSorbaAlexa(self.lambda_event)
         expected_output_text = "Unfortunately, all trails are closed."
 
-        output_text = alexis._build_output_text(status_data)
+        output_text = alexa._build_output_text(status_data)
         self.assertEqual(expected_output_text, output_text)
 
     def test_build_output_text_some_open_some_close(self):
@@ -56,11 +56,11 @@ class TestCapeFearSorbaAlexis(unittest.TestCase):
             ]
         }
 
-        alexis = cape_fear_sorba_alexis.CapeFearSorbaAlexis(self.lambda_event)
+        alexa = cape_fear_sorba_alexa.CapeFearSorbaAlexa(self.lambda_event)
         expected_output_text = "The following trails are open: %s." % ", ".join(status_data["open"])
         expected_output_text += " The following trails are closed: %s." % ", ".join(status_data["closed"])
 
-        output_text = alexis._build_output_text(status_data)
+        output_text = alexa._build_output_text(status_data)
         self.assertEqual(expected_output_text, output_text)
 
     def test_build_output_text_could_not_be_determined(self):
@@ -70,18 +70,18 @@ class TestCapeFearSorbaAlexis(unittest.TestCase):
             "closed": []
         }
 
-        alexis = cape_fear_sorba_alexis.CapeFearSorbaAlexis(self.lambda_event)
+        alexa = cape_fear_sorba_alexa.CapeFearSorbaAlexa(self.lambda_event)
         expected_output_text = "I'm sorry, trail statuses could not be determined."
 
-        output_text = alexis._build_output_text(status_data)
+        output_text = alexa._build_output_text(status_data)
         self.assertEqual(expected_output_text, output_text)
 
     def test_build_response(self):
 
         test_output = "Good news! All trails are open."
 
-        alexis = cape_fear_sorba_alexis.CapeFearSorbaAlexis(self.lambda_event)
-        response = alexis._build_response(output=test_output)
+        alexa = cape_fear_sorba_alexa.CapeFearSorbaAlexa(self.lambda_event)
+        response = alexa._build_response(output=test_output)
 
         expected_response = {
             "version": "1.0",
@@ -101,9 +101,9 @@ class TestCapeFearSorbaAlexis(unittest.TestCase):
         }
         self.assertDictEqual(expected_response, response)
 
-    @patch('cfsorba_alexis.cape_fear_sorba_alexis.CapeFearSorba')
-    @patch('cfsorba_alexis.cape_fear_sorba_alexis.CapeFearSorbaAlexis._build_output_text')
-    @patch('cfsorba_alexis.cape_fear_sorba_alexis.CapeFearSorbaAlexis._build_response')
+    @patch('cfsorba_alexa.cape_fear_sorba_alexa.CapeFearSorba')
+    @patch('cfsorba_alexa.cape_fear_sorba_alexa.CapeFearSorbaAlexa._build_output_text')
+    @patch('cfsorba_alexa.cape_fear_sorba_alexa.CapeFearSorbaAlexa._build_response')
     def test_execute(self, mock_build_response, mock_build_output_text, mock_cfsorba):
 
         mock_status_data = {
@@ -120,8 +120,8 @@ class TestCapeFearSorbaAlexis(unittest.TestCase):
         mock_cfsorba.parse_html.return_value = mock_status_data
         mock_build_output_text.return_value = "Good news! All trails are open."
 
-        alexis = cape_fear_sorba_alexis.CapeFearSorbaAlexis(self.lambda_event)
-        alexis.execute()
+        alexa = cape_fear_sorba_alexa.CapeFearSorbaAlexa(self.lambda_event)
+        alexa.execute()
 
         mock_cfsorba.get_document_html.assert_called()
         mock_cfsorba.parse_html.assert_called_with(html_doc="<html></html>")

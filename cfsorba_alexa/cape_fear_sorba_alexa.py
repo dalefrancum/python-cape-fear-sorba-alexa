@@ -3,7 +3,7 @@ import os
 from cfsorba import CapeFearSorba
 
 
-class CapeFearSorbaAlexis(object):
+class CapeFearSorbaAlexa(object):
 
     document_url = os.environ.get("CFSORBA_DOCUMENT_URL", "http://capefearsorba.org")
     speech_response_version = "1.0"
@@ -78,5 +78,5 @@ def lambda_handler(lambda_event, context):
     :return:
     """
     logging.basicConfig(level=os.environ.get("LOGLEVEL", logging.WARN))
-    alexis = CapeFearSorbaAlexis(lambda_event=lambda_event)
-    alexis.execute()
+    alexa = CapeFearSorbaAlexa(lambda_event=lambda_event)
+    alexa.execute()
