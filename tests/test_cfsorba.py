@@ -18,8 +18,7 @@ class TestCapeFearSorba(unittest.TestCase):
         with file(test_html_file) as f:
             test_html = f.read()
 
-        cfs = cfsorba.CapeFearSorba()
-        response = cfs._parse_html(html_doc=test_html)
+        response = cfsorba.CapeFearSorba.parse_html(html_doc=test_html)
 
         expected_response = {
             "open": [

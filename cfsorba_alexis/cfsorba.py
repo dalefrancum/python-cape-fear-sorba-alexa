@@ -12,9 +12,6 @@ class CapeFearSorba(object):
     document_url = os.environ.get("CFSORBA_DOCUMENT_URL", "http://capefearsorba.org")
     list_item_regex = "<li class=\"clearfix\">.*<p>([A-z .]+) .*(OPEN|CLOSED).*</li>"
 
-    def __init__(self):
-        pass
-
     @staticmethod
     def get_document_html(document_url):
         """
@@ -24,7 +21,8 @@ class CapeFearSorba(object):
         document_html = requests.get(url=document_url)
         return document_html
 
-    def _parse_html(self, html_doc):
+    @staticmethod
+    def parse_html(html_doc):
 
         open_trails = []
         closed_trails = []
@@ -36,7 +34,7 @@ class CapeFearSorba(object):
 
             logging.debug(str(list_item))
 
-            regex = re.search(self.list_item_regex, str(list_item), re.I | re.S)
+            regex = re.search(CapeFearSorba.list_item_regex, str(list_item), re.I | re.S)
             if regex:
                 trail = regex.group(1)
                 status = regex.group(2)
