@@ -1,3 +1,4 @@
+import json
 import logging
 import os
 from cfsorba import CapeFearSorba
@@ -10,7 +11,6 @@ class CapeFearSorbaAlexa(object):
     document_url = os.environ.get("CFSORBA_DOCUMENT_URL", "http://capefearsorba.org")
     speech_response_version = "1.0"
     card_title = "Cape Fear Sorba Trails"
-    session_attributes = {}
 
     def __init__(self, lambda_event):
         pass
@@ -43,7 +43,6 @@ class CapeFearSorbaAlexa(object):
 
         response = {
             "version": self.speech_response_version,
-            "sessionAttributes": self.session_attributes,
             "response": {
                 "outputSpeech": {
                     "type": "PlainText",
@@ -68,7 +67,7 @@ class CapeFearSorbaAlexa(object):
         # Build the response and return that
         output_text = self._build_output_text(status_data=cf_sorba_statuses)
         response = self._build_response(output=output_text)
-        logging.debug(response)
+        logging.debug(json.dumps(response))
         return response
 
 
@@ -81,4 +80,5 @@ def lambda_handler(lambda_event, context):
     """
     logging.basicConfig(level=os.environ.get("LOGLEVEL", logging.WARN))
     alexa = CapeFearSorbaAlexa(lambda_event=lambda_event)
-    alexa.execute()
+    response = alexa.execute()
+    return response
