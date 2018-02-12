@@ -24,7 +24,7 @@ class TestCapeFearSorba(unittest.TestCase):
             "open": [
                 "Brunswick Nature Park",
                 "Browns Creek",
-                "Horry Co. Bike Park"
+                "Horry County Bike Park"
             ],
             "closed": [
                 "Blue Clay Bike Park"

@@ -36,8 +36,12 @@ class CapeFearSorba(object):
 
             regex = re.search(CapeFearSorba.list_item_regex, str(list_item), re.I | re.S)
             if regex:
+
                 trail = regex.group(1)
+                if trail == "Horry Co. Bike Park":
+                    trail = "Horry County Bike Park"
                 status = regex.group(2)
+
                 if status == "OPEN":
                     open_trails.append(trail)
                 elif status == "CLOSED":
