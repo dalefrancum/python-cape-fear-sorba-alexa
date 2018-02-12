@@ -24,7 +24,7 @@ class CapeFearSorbaAlexis(object):
             "shouldEndSession": True
         }
 
-    def build_response(session_attributes, speechlet_response):
+    def _build_response(session_attributes, speechlet_response):
         return {
             "version": "1.0",
             "sessionAttributes": session_attributes,
