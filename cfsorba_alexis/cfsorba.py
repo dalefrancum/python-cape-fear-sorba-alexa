@@ -17,7 +17,8 @@ class CapeFearSorba(object):
         Given a URL, retrieve the document and return its HTML
         :return:
         """
-        document_html = requests.get(url=document_url)
+        r = requests.get(url=document_url)
+        document_html = r.text
         return document_html
 
     @staticmethod

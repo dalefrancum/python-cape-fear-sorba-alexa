@@ -1,5 +1,5 @@
 import unittest
-from mock import patch
+from mock import Mock, patch
 import cfsorba_alexis.cfsorba as cfsorba
 
 
@@ -8,7 +8,7 @@ class TestCapeFearSorba(unittest.TestCase):
     @patch('cfsorba_alexis.cfsorba.requests')
     def test_get_document_html(self, mock_requests):
         test_html = "<html></html>"
-        mock_requests.get.return_value = test_html
+        mock_requests.get.return_value = Mock(status_code=200, text=test_html)
         document_html = cfsorba.CapeFearSorba.get_document_html(document_url="http://capefearsorba.org/")
         self.assertEqual(test_html, document_html)
 
