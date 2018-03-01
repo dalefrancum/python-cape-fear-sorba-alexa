@@ -9,7 +9,8 @@ logging.basicConfig(level=os.environ.get("LOGLEVEL", logging.WARN))
 
 class CapeFearSorba(object):
 
-    list_item_regex = "<li class=\"clearfix\">.*<p>([A-z .]+) .*(OPEN|CLOSED).*</li>"
+    list_item_regex1 = "<li class=\"clearfix\">.*<p>([A-z .]+) .*(OPEN|CLOSED).*</li>"
+    list_item_regex2 = "<li class=\"clearfix\">.*<div class=\"edn-mulitple-text-content\">\s+([A-z .]+) .*(OPEN|CLOSED).*</li>"
 
     @staticmethod
     def get_document_html(document_url):
@@ -33,10 +34,16 @@ class CapeFearSorba(object):
         for list_item in ul_element.find_all("li"):
 
             logging.debug(str(list_item))
+            if re.search("All Trails.*OPEN", str(list_item)):
+                continue
 
-            regex = re.search(CapeFearSorba.list_item_regex, str(list_item), re.I | re.S)
+            regex = re.search(CapeFearSorba.list_item_regex1, str(list_item), re.I | re.S)
+
+            # Second regex if the first one failed
+            if not regex:
+                regex = re.search(CapeFearSorba.list_item_regex2, str(list_item), re.I | re.S)
+
             if regex:
-
                 trail = regex.group(1)
                 if trail == "Horry Co. Bike Park":
                     trail = "Horry County Bike Park"
