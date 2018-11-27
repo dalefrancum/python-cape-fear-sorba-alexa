@@ -3,6 +3,7 @@ import os
 import re
 from bs4 import BeautifulSoup
 import requests
+from botocore.utils import requests
 
 
 logging.basicConfig(level=os.environ.get("LOGLEVEL", logging.WARN))
